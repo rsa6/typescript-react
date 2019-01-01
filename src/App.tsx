@@ -1,20 +1,38 @@
 import * as React from 'react';
-import './App.css';
+import Main from './Main';
+import { AppContextInterface, AppContextProvider } from './Store';
 
-import logo from './logo.svg';
 
-class App extends React.Component {
+class App extends React.Component<{}, AppContextInterface> {
+  constructor(props: object) {
+    super(props);
+    this.state = {
+      adress: 'this is from store adress',
+      url: 'this is from store url',
+      change: this._change
+    }
+  }
+
+  // private sampleAppContext: AppContextInterface = {
+  //   adress: 'this is from store adress',
+  //   url: 'this is from store url',
+  // }
+
+  private _change = (): void => {
+    console.log('_change function');
+    this.setState({adress: 'try to change adress!!!'});
+    console.log(this.state.adress);
+  }
+
+  static _staticChange = (): void => {
+    console.log('static change function');   
+  }
+
   public render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <AppContextProvider value={this.state}>
+        <Main />
+      </AppContextProvider>
     );
   }
 }
